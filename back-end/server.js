@@ -26,11 +26,11 @@ mongoose.connect('mongodb://localhost:27017/meetup', {
 
 // Create a scheme for activities
 const activitySchema = new mongoose.Schema({
-  activity: String,
+  name: String,
+  city: String,
   peopleNeeded: String,
   peopleGoing: String,
-  startTime: String,
-  endTime: String,
+  date: String,
   address: String,
 });
 
@@ -39,67 +39,69 @@ const Activity = mongoose.model('Activity', activitySchema);
 
 // Upload a photo. Uses the multer middleware for the upload and then returns
 // the path where the photo is stored in the file system.
-app.post('/api/photos', upload.single('photo'), async (req, res) => {
-  // Just a safety check
-  if (!req.file) {
-    return res.sendStatus(400);
-  }
-  res.send({
-    path: "/images/" + req.file.filename
-  });
-});
+// app.post('/api/photos', upload.single('photo'), async (req, res) => {
+//   // Just a safety check
+//   if (!req.file) {
+//     return res.sendStatus(400);
+//   }
+//   res.send({
+//     path: "/images/" + req.file.filename
+//   });
+// });
 
-// Get a list of all of the items in the museum.
-app.get('/api/items', async (req, res) => {
+// Get a list of all of the activities in the museum.
+app.get('/api/activities', async (req, res) => {
   try {
-    let items = await Item.find();
-    res.send(items);
+    let activities = await Activity.find();
+    res.send(activities);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.sendStatus(500);
   }
 });
 
-//Delete an item
-app.delete('/api/items/:id', async (req, res) => {
+// Delete an item
+app.delete('/api/activities/:id', async (req, res) => {
   try {
-    await Item.deleteOne({
+    await Activity.deleteOne({
       _id: req.params.id
     });
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.sendStatus(500);
   }
 });
 
 // Create a new item in the museum: takes a title and a path to an image.
-app.post('/api/items', async (req, res) => {
-  const item = new Item({
-    title: req.body.title,
-    description: req.body.description,
-    path: req.body.path,
+app.post('/api/activities', async (req, res) => {
+  const activity = new Activity({
+    name: req.body.name,
+    city: req.body.city,
+    peopleNeeded: req.body.peopleNeeded,
+    peopleGoing: req.body.peopleGoing,
+    date: req.body.date,
+    address: req.body.address,
   });
   try {
-    await item.save();
-    res.send(item);
+    await activity.save();
+    res.send(activity);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.sendStatus(500);
   }
 });
 
-app.put('/api/items/:id', async(req, res) => {
+app.put('/api/activities/:id', async(req, res) => {
   try {
-    let item = await Item.findOne({
+    let activity = await Activity.findOne({
       _id: req.params.id
     });
-    item.title = req.body.title;
-    item.description = req.body.description;
-    item.save();
+    activity.peopleGoing = req.body.peopleGoing;
+    activity.save();
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.sendStatus(500);
   }
 });

@@ -13,7 +13,7 @@
         <h2 id="name">{{activity.name}} in {{activity.city}}</h2>
         <h2 id="numPeople">{{activity.peopleGoing}} going / {{activity.peopleNeeded}} needed</h2>
         <p id="address">{{activity.address}}</p>
-        <button @click="addGoing(activity)">I'm Going</button>
+        <button @click="removeActivity(activity)">REMOVE</button>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
 // @ is an alias to /src
 import axios from 'axios';
 export default {
-  name: "Home",
+  name: "Manage",
   data() {
     return {
       activities: [],
@@ -55,6 +55,8 @@ export default {
       }
     },
     getCategories() {
+      this.categories = [];
+
       let i;
       for (i = 0; i < this.activities.length; i++) {
         if(!this.categories.includes(this.activities[i].name)) {
@@ -73,13 +75,12 @@ export default {
     select(selectedCategory) {
       this.selectedCategory = selectedCategory;
     },
-    async addGoing(activity) {
+    async removeActivity(activity) {
       try {
-        let updatedPeopleGoing = (parseInt(activity.peopleGoing) + 1).toString();
-        await axios.put("/api/activities/" + activity._id, {
-          peopleGoing: updatedPeopleGoing,
+        await axios.delete("/api/activities/" + activity._id, {
         });
         this.getActivities();
+        this.getCategories();
         // console.log(this.categories);
       } catch (error) {
         // console.log(error);
@@ -121,7 +122,7 @@ export default {
   }
   button, input[type="submit"], input[type="reset"] {
 	background: none;
-  background-color: #456268;
+  background-color: #b7410e;
 	color: #fcf8ec;
 	border: none;
 	padding: 5px 20px;
@@ -131,7 +132,6 @@ export default {
 	cursor: pointer;
 	outline: inherit;
   margin-top: 10px;
-  box-shadow: -1px 2px #C0C0C0;
 }
 
 button:hover {

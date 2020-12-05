@@ -6,14 +6,15 @@
           <router-link to="/">MeetUp</router-link>
         </div>
         <div class="pages">
+          <router-link to="/">Browse</router-link>
           <router-link to="/add">+ Activity</router-link>
-          <router-link to="/about">About</router-link>
+          <router-link to="/manage">Manage</router-link>
         </div>
       </div>
       <router-view />
     </div>
     <div class="footer">
-      <a href="">Github Repo</a>
+      <a href="https://github.com/jack40tall/meetup-4">Github Repo</a>
     </div>
   </div>
 </template>
@@ -39,11 +40,17 @@ a {
 }
 
 #nav {
-  padding: 30px;
+  padding: 24px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   background-color: #d0e8f2;
+  border-bottom: 1px solid #C0C0C0;
+}
+
+.logo {
+  font-size: 16pt;
+  padding: 0 20px;
 }
 
 #nav a {
@@ -51,8 +58,19 @@ a {
   color: #2c3e50;
 }
 
+#nav .pages a:hover {
+  color: #79a3b1;
+}
+
+#nav .pages {
+  align-content: center;
+  display: flex;
+}
+
 #nav .pages a{
-  padding: 20px;
+  padding: 0 20px;
+  line-height: 20pt;
+  text-align: center;
 }
 
 #content {
